@@ -1,5 +1,6 @@
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const path = require('path');
 
 module.exports = {
   entry: {
@@ -9,23 +10,23 @@ module.exports = {
   },
   devtool: 'cheap-module-eval-source-map',
   output: {
-    path: './dist',
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/dist/'
   },
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['.ts', '.js']
   },
   module: {
     loaders: [
       {
         test: /\.ts$/,
         exclude: /\.d\.ts$/,
-        loader: 'ts'
+        loader: 'ts-loader'
       },
       {
         test: /\.html$/,
-        loader: 'raw'
+        loader: 'raw-loader'
       }
     ]
   },

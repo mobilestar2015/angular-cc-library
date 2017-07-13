@@ -1,6 +1,7 @@
 # Description
-
+This project is forked from 'https://github.com/nogorilla/angular-cc-library'
 Angular CC Library - for validation and formating of input parameters
+It supports latest angular version(4.x).
 
 # Demo
 1. Clone repo
@@ -12,7 +13,7 @@ Angular CC Library - for validation and formating of input parameters
 
 ## Installation
 ```shell
-npm install angular-cc-library --save
+npm install angularx-cc-library --save
 ```
 
 ## Formating Directive
@@ -23,7 +24,7 @@ All fields must be `type='tel'` in order to support spacing and additional chara
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { CreditCardDirectivesModule } from 'angular-cc-library';
+import { CreditCardDirectivesModule } from 'angularx-cc-library';
 
 import { AppComponent } from './app.component';
 
@@ -61,7 +62,7 @@ Current only Model Validation is supported.
 To implement, import the validator library and apply the specific validator on each form control
 
 ```javascript
-import { CreditCardValidator } from 'angular-cc-library';
+import { CreditCardValidator } from 'angularx-cc-library';
 
 @Component({
   selector: 'app',
