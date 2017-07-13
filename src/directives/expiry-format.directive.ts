@@ -10,7 +10,20 @@ export class ExpiryFormatDirective {
   public target;
 
   constructor(private el: ElementRef) {
-    this.target = this.el.nativeElement;
+    if (/(input|INPUT)/.exec(el.nativeElement.tagName)) {
+      this.target = el.nativeElement;
+    } else {
+      this.target = this.el.nativeElement.getElementsByTagName('input');
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (/(input|INPUT)/.exec(this.el.nativeElement.tagName)) {
+      this.target = this.el.nativeElement;
+    } else {
+      let inputs = this.el.nativeElement.getElementsByTagName('INPUT');
+      this.target = inputs[0];
+    }
   }
 
   @HostListener('keypress', ['$event']) onKeypress(e) {

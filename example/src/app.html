@@ -12,7 +12,9 @@
 
   <div class="form-group">
     <label for="cc-cvc" class="control-label">Card CVC formatting</label>
-    <input id="cc-cvc" formControlName="cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="CVC" required ccCVC>
+    <div ccCVC>
+      <input id="cc-cvc" formControlName="cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="CVC" required/>
+    </div>
   </div>
   <button type="submit" class="btn btn-lg btn-primary">Submit</button>
   <div class="errors" *ngIf="submitted">
