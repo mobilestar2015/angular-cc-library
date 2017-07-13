@@ -5,7 +5,7 @@ import { CreditCard } from '../shared/credit-card';
   selector: '[ccCVC]'
 })
 
-export class CvcFormatDirective implements AfterViewChecked{
+export class CvcFormatDirective{
 
   public target;
 
