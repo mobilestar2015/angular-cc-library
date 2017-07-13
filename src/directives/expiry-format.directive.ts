@@ -17,7 +17,7 @@ export class ExpiryFormatDirective {
     }
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     if (/^(input|INPUT)$/.exec(this.el.nativeElement.tagName)) {
       this.target = this.el.nativeElement;
     } else {

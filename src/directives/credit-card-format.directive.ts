@@ -20,7 +20,7 @@ export class CreditCardFormatDirective {
     this.cards = CreditCard.cards();
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     if (/^(input|INPUT)$/.exec(this.el.nativeElement.tagName)) {
       this.target = this.el.nativeElement;
     } else {

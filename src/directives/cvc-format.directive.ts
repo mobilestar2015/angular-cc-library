@@ -18,7 +18,7 @@ export class CvcFormatDirective implements AfterViewChecked{
     // }
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     if (/^(input|INPUT)$/.exec(this.el.nativeElement.tagName)) {
       this.target = this.el.nativeElement;
     } else {
