@@ -10,7 +10,7 @@ export class ExpiryFormatDirective {
   public target;
 
   constructor(private el: ElementRef) {
-    if (/(input|INPUT)/.exec(el.nativeElement.tagName)) {
+    if (/^(input|INPUT)$/.exec(el.nativeElement.tagName)) {
       this.target = el.nativeElement;
     } else {
       this.target = this.el.nativeElement.getElementsByTagName('input');
@@ -18,7 +18,7 @@ export class ExpiryFormatDirective {
   }
 
   ngAfterViewChecked() {
-    if (/(input|INPUT)/.exec(this.el.nativeElement.tagName)) {
+    if (/^(input|INPUT)$/.exec(this.el.nativeElement.tagName)) {
       this.target = this.el.nativeElement;
     } else {
       let inputs = this.el.nativeElement.getElementsByTagName('INPUT');
