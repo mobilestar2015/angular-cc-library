@@ -36,8 +36,7 @@ export class CvcFormatDirective{
     this.reformatCvc(e)
   }  
   @HostListener('ionBlur', ['$event']) onIonBlur(e) {
-    console.log(e);
-    e._value = this.target.value;
+    this.reformatCvc(e);
   }
 
 
@@ -46,6 +45,10 @@ export class CvcFormatDirective{
       let val = CreditCard.replaceFullWidthChars(this.target.value);
       val = val.replace(/\D/g, '').slice(0, 4);
       this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(val, this.target);
+      // Workaround for setting ion-input value same as the native input element.
+      if (e._value) {
+        e._value = val;
+      }
     });
   }
 

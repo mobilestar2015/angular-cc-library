@@ -44,6 +44,10 @@ export class ExpiryFormatDirective {
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatExpiry(e);
   }
+  
+  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+    this.reformatExpiry(e);
+  }
 
   private formatExpiry(e) {
     let digit = String.fromCharCode(e.which),
@@ -114,6 +118,10 @@ export class ExpiryFormatDirective {
       val = CreditCard.replaceFullWidthChars(val);
       val = CreditCard.formatExpiry(val);
       this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(val, this.target);
+      // Workaround for setting ion-input value same as the native input element.
+      if (e._value) {
+        e._value = val;
+      }
     });
   }
 

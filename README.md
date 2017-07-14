@@ -1,7 +1,7 @@
 # Description
 This project is forked from 'https://github.com/nogorilla/angular-cc-library'
 Angular CC Library - for validation and formating of input parameters
-It supports latest angular version(4.x).
+It supports latest angular version(4.x) and ion-input.
 
 # Demo
 1. Clone repo
