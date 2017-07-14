@@ -34,6 +34,9 @@ export class CvcFormatDirective{
   }
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatCvc(e)
+  }
+  @HostListener('ionChange', ['$event']) onIonChange(e) {
+    this.reformatCvc(e);
   }  
   @HostListener('ionBlur', ['$event']) onIonBlur(e) {
     this.reformatCvc(e);

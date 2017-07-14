@@ -43,8 +43,10 @@ export class ExpiryFormatDirective {
   }
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatExpiry(e);
-  }
-  
+  }  
+  @HostListener('ionChange', ['$event']) onIonChange(e) {
+    this.reformatExpiry(e);
+  }  
   @HostListener('ionBlur', ['$event']) onIonBlur(e) {
     this.reformatExpiry(e);
   }

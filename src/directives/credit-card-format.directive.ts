@@ -55,8 +55,13 @@ export class CreditCardFormatDirective {
     this.reFormatCardNumber(e);
     this.setCardType(e);
   }
+  @HostListener('ionChange', ['$event']) onIonChange(e) {
+    this.reFormatCardNumber(e);
+    this.setCardType(e);
+  }
   @HostListener('ionBlur', ['$event']) onIonBlur(e) {
-    this.reFormatCardNumber(e);    
+    this.reFormatCardNumber(e);
+    this.setCardType(e);    
   }
 
   private formatCardNumber(e) {
@@ -141,15 +146,24 @@ export class CreditCardFormatDirective {
         cardType = CreditCard.cardType(val) || 'unknown';
 
     if (!this.target.classList.contains(cardType)) {
-
+      let ionInputElem = e._elementRef;
       for (let i = 0, len = this.cards.length; i < len; i++) {
         card = this.cards[i];
         this.target.classList.remove(card.type);
+        if (ionInputElem) {
+          ionInputElem.nativeElement.classList.remove(card.type);
+        }
       }
 
       this.target.classList.remove('unknown');
       this.target.classList.add(cardType);
       this.target.classList.toggle('identified', cardType !== 'unknown');
+      
+      if (ionInputElem) {
+        ionInputElem.nativeElement.classList.remove('unknown');
+        ionInputElem.nativeElement.classList.add(cardType);
+        ionInputElem.nativeElement.classList.toggle('identified', cardType !== 'unknown');
+      }
     }
   }
 
