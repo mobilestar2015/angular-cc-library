@@ -9,6 +9,7 @@ export class CreditCardFormatDirective {
 
   public target;
   private cards: Array<any>;
+  private lastValue;
 
   constructor(private el: ElementRef) {
     if (/^(input|INPUT)$/.exec(el.nativeElement.tagName)) {
@@ -38,7 +39,6 @@ export class CreditCardFormatDirective {
       e.preventDefault();
       return false;
     }
-
   }
   @HostListener('keydown', ['$event']) onKeydown(e) {
     this.formatBackCardNumber(e);
@@ -48,13 +48,21 @@ export class CreditCardFormatDirective {
   }
   @HostListener('paste', ['$event']) onPaste(e) {
     this.reFormatCardNumber(e);
+    this.lastValue = this.target.value;
   }
   @HostListener('change', ['$event']) onChange(e) {
     this.reFormatCardNumber(e);
+    this.lastValue = this.target.value;
   }
   @HostListener('input', ['$event']) onInput(e) {
     this.reFormatCardNumber(e);
     this.setCardType(e);
+    this.lastValue = this.target.value;
+  }
+  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+    console.log(e);
+    this.target.value = this.lastValue || "";
+    e._value = this.target.value;
   }
 
   private formatCardNumber(e) {

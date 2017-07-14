@@ -8,14 +8,8 @@ import { CreditCard } from '../shared/credit-card';
 export class CvcFormatDirective{
 
   public target;
-
+  
   constructor(private el: ElementRef) {
-    // if (/(input|INPUT)/.exec(el.nativeElement.tagName)) {
-    //   this.target = el.nativeElement;
-    // } else {
-    //   let inputs = el.nativeElement.getElementsByTagName('INPUT');
-    //   this.target = inputs;
-    // }
   }
 
   ngAfterViewInit() {
@@ -40,6 +34,10 @@ export class CvcFormatDirective{
   }
   @HostListener('input', ['$event']) onInput(e) {
     this.reformatCvc(e)
+  }  
+  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+    console.log(e);
+    e._value = this.target.value;
   }
 
 
