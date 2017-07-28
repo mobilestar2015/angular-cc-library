@@ -1,8 +1,14 @@
+import { Injectable } from '@angular/core';
 import { AbstractControl, Validators } from '@angular/forms';
 import { CreditCard } from './shared/credit-card';
 
+@Injectable()
 export class CreditCardValidator {
-  static validateCCNumber(control: AbstractControl): any {
+
+  constructor(private creditCard: CreditCard) {
+
+  }
+  validateCCNumber(control: AbstractControl): any {
     if (Validators.required(control) !== undefined && Validators.required(control) !== null) {
       return {'ccNumber': false};
     }
@@ -13,20 +19,20 @@ export class CreditCardValidator {
       return {'ccNumber': false};
     }
 
-    let card = CreditCard.cardFromNumber(num);
+    let card = this.creditCard.cardFromNumber(num);
 
     if (!card) {
       return {'ccNumber': false};
     }
 
-    if (card.length.includes(num.length) && (card.luhn === false || CreditCard.luhnCheck(num))) {
+    if (card.length >= num.length && (card.luhn === false || this.creditCard.luhnCheck(num))) {
       return null;
     }
 
     return {'ccNumber': false};
   }
 
-  static validateExpDate(control: AbstractControl): any {
+  validateExpDate(control: AbstractControl): any {
     if (Validators.required(control) !== undefined && Validators.required(control) !== null) {
       return {'expDate': false };
     }

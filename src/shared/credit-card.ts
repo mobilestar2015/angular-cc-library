@@ -1,93 +1,90 @@
-let defaultFormat = /(\d{1,4})/g;
-let cards = [
-  {
-    type: 'maestro',
-    patterns: [5018, 502, 503, 506, 56, 58, 639, 6220, 67],
-    format: defaultFormat,
-    length: [12, 13, 14, 15, 16, 17, 18, 19],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'forbrugsforeningen',
-    patterns: [600],
-    format: defaultFormat,
-    length: [16],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'dankort',
-    patterns: [5019],
-    format: defaultFormat,
-    length: [16],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'visa',
-    patterns: [4],
-    format: defaultFormat,
-    length: [13, 16],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'mastercard',
-    patterns: [51, 52, 53, 54, 55, 22, 23, 24, 25, 26, 27],
-    format: defaultFormat,
-    length: [16],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'amex',
-    patterns: [34, 37],
-    format: /(\d{1,4})(\d{1,6})?(\d{1,5})?/,
-    length: [15],
-    cvvLength: [3, 4],
-    luhn: true
-  }, {
-    type: 'dinersclub',
-    patterns: [30, 36, 38, 39],
-    format: /(\d{1,4})(\d{1,6})?(\d{1,4})?/,
-    length: [14],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'discover',
-    patterns: [60, 64, 65, 622],
-    format: defaultFormat,
-    length: [16],
-    cvvLength: [3],
-    luhn: true
-  }, {
-    type: 'unionpay',
-    patterns: [62, 88],
-    format: defaultFormat,
-    length: [16, 17, 18, 19],
-    cvvLength: [3],
-    luhn: false
-  }, {
-    type: 'jcb',
-    patterns: [35],
-    format: defaultFormat,
-    length: [16],
-    cvvLength: [3],
-    luhn: true
-  }
-];
-
+import { Injectable } from '@angular/core';
+@Injectable()
 export class CreditCard {
+  defaultFormat = /(\d{1,4})/g;
+  cards = [
+    {
+      type: 'maestro',
+      patterns: [5018, 502, 503, 506, 56, 58, 639, 6220, 67],
+      format: this.defaultFormat,
+      length: [12, 13, 14, 15, 16, 17, 18, 19],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'forbrugsforeningen',
+      patterns: [600],
+      format: this.defaultFormat,
+      length: [16],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'dankort',
+      patterns: [5019],
+      format: this.defaultFormat,
+      length: [16],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'visa',
+      patterns: [4],
+      format: this.defaultFormat,
+      length: [13, 16],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'mastercard',
+      patterns: [51, 52, 53, 54, 55, 22, 23, 24, 25, 26, 27],
+      format: this.defaultFormat,
+      length: [16],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'amex',
+      patterns: [34, 37],
+      format: /(\d{1,4})(\d{1,6})?(\d{1,5})?/,
+      length: [15],
+      cvvLength: [3, 4],
+      luhn: true
+    }, {
+      type: 'dinersclub',
+      patterns: [30, 36, 38, 39],
+      format: /(\d{1,4})(\d{1,6})?(\d{1,4})?/,
+      length: [14],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'discover',
+      patterns: [60, 64, 65, 622],
+      format: this.defaultFormat,
+      length: [16],
+      cvvLength: [3],
+      luhn: true
+    }, {
+      type: 'unionpay',
+      patterns: [62, 88],
+      format: this.defaultFormat,
+      length: [16, 17, 18, 19],
+      cvvLength: [3],
+      luhn: false
+    }, {
+      type: 'jcb',
+      patterns: [35],
+      format: this.defaultFormat,
+      length: [16],
+      cvvLength: [3],
+      luhn: true
+    }
+  ];
 
-  public static cards() {
-    return cards;
-  }
-
-  public static cardFromNumber(num) {
-    let card,
-        p,
-        pattern,
-        ref;
+  public cardFromNumber(num: any) {
+    let card: any,
+        p: any,
+        pattern: any,
+        ref: any;
     num = (num + '').replace(/\D/g, '');
 
-    for (let i = 0, len = cards.length; i < len; i++) {
-      card = cards[i];
+    for (let i = 0, len = this.cards.length; i < len; i++) {
+      card = this.cards[i];
       ref = card.patterns;
 
       for (let j = 0, len1 = ref.length; j < len1; j++) {
@@ -101,7 +98,7 @@ export class CreditCard {
     }
   }
 
-  public static restrictNumeric(e): boolean {
+  public restrictNumeric(e: any): boolean {
     let input;
     if (e.metaKey || e.ctrlKey) {
       return true;
@@ -119,11 +116,11 @@ export class CreditCard {
     return !!/[\d\s]/.test(input);
   }
 
-  public static hasTextSelected(target) {
+  public hasTextSelected(target: any) {
     return target.selectionStart !== null && target.selectionStart !== target.selectionEnd;
   }
 
-  public static cardType(num) {
+  public cardType(num: any) {
     if (!num) {
       return num;
     }
@@ -137,7 +134,7 @@ export class CreditCard {
     }
   }
 
-  public static formatCardNumber(num) {
+  public formatCardNumber(num: any) {
     let card,
         groups,
         upperLength;
@@ -167,7 +164,7 @@ export class CreditCard {
     }
   }
 
-  public static safeVal(value, target) {
+  public safeVal(value: any, target: any) {
     let cursor = null,
         last   = target.value,
         result: any = null;
@@ -198,7 +195,7 @@ export class CreditCard {
     return result;
   }
 
-  public static isCardNumber(key, target) {
+  public isCardNumber(key: any, target: any) {
     let card,
         digit,
         value,
@@ -207,11 +204,11 @@ export class CreditCard {
     if (!/^\d+$/.test(digit)) {
       return false;
     }
-    if (CreditCard.hasTextSelected(target)) {
+    if (this.hasTextSelected(target)) {
       return true;
     }
     value = (target.value + digit).replace(/\D/g, '');
-    card = CreditCard.cardFromNumber(value);
+    card = this.cardFromNumber(value);
     if (card) {
       result = value.length <= card.length[card.length.length - 1];
     } else {
@@ -221,7 +218,7 @@ export class CreditCard {
     return result;
   }
 
-  public static restrictExpiry(key, target) {
+  public restrictExpiry(key: any, target: any) {
     let digit,
         value;
     digit = String.fromCharCode(key);
@@ -233,7 +230,7 @@ export class CreditCard {
     return value.length > 6;
   }
 
-  public static replaceFullWidthChars(str) {
+  public replaceFullWidthChars(str: string) {
     if (str === null) {
       str = '';
     }
@@ -256,7 +253,7 @@ export class CreditCard {
     return value;
   }
 
-  public static formatExpiry(expiry) {
+  public formatExpiry(expiry: any) {
     let parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/),
         mon,
         sep,
@@ -284,7 +281,7 @@ export class CreditCard {
     return `${mon}${sep}${year}`;
   }
 
-  public static restrictCvc(key, target) {
+  public restrictCvc(key: any, target: any) {
     let digit = String.fromCharCode(key);
     if (!/^\d+$/.test(digit) || this.hasTextSelected(target)) {
       return false;
@@ -293,7 +290,7 @@ export class CreditCard {
     return val.length <= 4;
   }
 
-  public static luhnCheck(num) {
+  public luhnCheck(num: any) {
     let digit,
         digits = num.split('').reverse(),
         odd    = true,

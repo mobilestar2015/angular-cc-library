@@ -7,9 +7,9 @@ import { CreditCard } from '../shared/credit-card';
 
 export class CvcFormatDirective{
 
-  public target;
+  public target: any;
   
-  constructor(private el: ElementRef) {
+  constructor(private creditCard: CreditCard, private el: ElementRef) {
   }
 
   ngAfterViewInit() {
@@ -21,33 +21,33 @@ export class CvcFormatDirective{
     }
   }
 
-  @HostListener('keypress', ['$event']) onKeypress(e) {
-    if (!CreditCard.restrictNumeric(e) && !CreditCard.restrictCvc(e.which, this.target)) {
+  @HostListener('keypress', ['$event']) onKeypress(e: any) {
+    if (!this.creditCard.restrictNumeric(e) && !this.creditCard.restrictCvc(e.which, this.target)) {
       e.preventDefault();
     }
   }
-  @HostListener('paste', ['$event']) onPaste(e) {
+  @HostListener('paste', ['$event']) onPaste(e: any) {
     this.reformatCvc(e)
   }
-  @HostListener('change', ['$event']) onChange(e) {
+  @HostListener('change', ['$event']) onChange(e: any) {
     this.reformatCvc(e)
   }
-  @HostListener('input', ['$event']) onInput(e) {
+  @HostListener('input', ['$event']) onInput(e: any) {
     this.reformatCvc(e)
   }
-  @HostListener('ionChange', ['$event']) onIonChange(e) {
+  @HostListener('ionChange', ['$event']) onIonChange(e: any) {
     this.reformatCvc(e);
   }  
-  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+  @HostListener('ionBlur', ['$event']) onIonBlur(e: any) {
     this.reformatCvc(e);
   }
 
 
-  private reformatCvc(e) {
+  private reformatCvc(e: any) {
     setTimeout(() => {
-      let val = CreditCard.replaceFullWidthChars(this.target.value);
+      let val = this.creditCard.replaceFullWidthChars(this.target.value);
       val = val.replace(/\D/g, '').slice(0, 4);
-      this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(val, this.target);
+      this.target.selectionStart = this.target.selectionEnd = this.creditCard.safeVal(val, this.target);
       // Workaround for setting ion-input value same as the native input element.
       if (e._value) {
         e._value = val;

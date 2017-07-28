@@ -7,9 +7,9 @@ import { CreditCard } from '../shared/credit-card';
 
 export class ExpiryFormatDirective {
 
-  public target;
+  public target: any;
 
-  constructor(private el: ElementRef) {
+  constructor(private creditCard: CreditCard, private el: ElementRef) {
   }
 
   ngAfterViewInit() {
@@ -21,9 +21,9 @@ export class ExpiryFormatDirective {
     }
   }
 
-  @HostListener('keypress', ['$event']) onKeypress(e) {
-    if (CreditCard.restrictNumeric(e)) {
-      if (CreditCard.restrictExpiry(e.which, this.target)) {
+  @HostListener('keypress', ['$event']) onKeypress(e: any) {
+    if (this.creditCard.restrictNumeric(e)) {
+      if (this.creditCard.restrictExpiry(e.which, this.target)) {
         this.formatExpiry(e);
         this.formatForwardSlashAndSpace(e);
         this.formatForwardExpiry(e);
@@ -33,25 +33,25 @@ export class ExpiryFormatDirective {
       return false;
     }
   }
-  @HostListener('keydown', ['$event']) onKeydown(e) {
-    if (CreditCard.restrictNumeric(e) && CreditCard.restrictExpiry(e.which, this.target)) {
+  @HostListener('keydown', ['$event']) onKeydown(e: any) {
+    if (this.creditCard.restrictNumeric(e) && this.creditCard.restrictExpiry(e.which, this.target)) {
       this.formatBackExpiry(e);
     }
   }
-  @HostListener('change', ['$event']) onChange(e) {
+  @HostListener('change', ['$event']) onChange(e: any) {
     this.reformatExpiry(e);
   }
-  @HostListener('input', ['$event']) onInput(e) {
+  @HostListener('input', ['$event']) onInput(e: any) {
     this.reformatExpiry(e);
   }  
-  @HostListener('ionChange', ['$event']) onIonChange(e) {
+  @HostListener('ionChange', ['$event']) onIonChange(e: any) {
     this.reformatExpiry(e);
   }  
-  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+  @HostListener('ionBlur', ['$event']) onIonBlur(e: any) {
     this.reformatExpiry(e);
   }
 
-  private formatExpiry(e) {
+  private formatExpiry(e: any) {
     let digit = String.fromCharCode(e.which),
         val   = `${this.target.value}${digit}`;
 
@@ -76,7 +76,7 @@ export class ExpiryFormatDirective {
     }
   }
 
-  private formatForwardSlashAndSpace(e) {
+  private formatForwardSlashAndSpace(e: any) {
     let which = String.fromCharCode(e.which),
         val   = this.target.value;
 
@@ -88,7 +88,7 @@ export class ExpiryFormatDirective {
     }
   }
 
-  private formatForwardExpiry(e) {
+  private formatForwardExpiry(e: any) {
     let digit = String.fromCharCode(e.which),
         val   = this.target.value;
 
@@ -97,7 +97,7 @@ export class ExpiryFormatDirective {
     }
   }
 
-  private formatBackExpiry(e) {
+  private formatBackExpiry(e: any) {
     let val = this.target.valueOf;
 
     if (e.which !== 8) {
@@ -114,12 +114,12 @@ export class ExpiryFormatDirective {
     }
   }
 
-  private reformatExpiry(e) {
+  private reformatExpiry(e: any) {
     setTimeout(() => {
       let val = this.target.value;
-      val = CreditCard.replaceFullWidthChars(val);
-      val = CreditCard.formatExpiry(val);
-      this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(val, this.target);
+      val = this.creditCard.replaceFullWidthChars(val);
+      val = this.creditCard.formatExpiry(val);
+      this.target.selectionStart = this.target.selectionEnd = this.creditCard.safeVal(val, this.target);
       // Workaround for setting ion-input value same as the native input element.
       if (e._value) {
         e._value = val;

@@ -10,12 +10,12 @@ export class AppComponent implements OnInit {
   demoForm: FormGroup;
   submitted: boolean = false;
 
-  constructor(private _fb: FormBuilder) {}
+  constructor(private creditCardValidator: CreditCardValidator, private _fb: FormBuilder) {}
 
   ngOnInit() {
     this.demoForm = this._fb.group({
-      creditCard: ['', [<any>CreditCardValidator.validateCCNumber]],
-      expDate: ['', [<any>CreditCardValidator.validateExpDate]],
+      creditCard: ['', [<any>this.creditCardValidator.validateCCNumber]],
+      expDate: ['', [<any>this.creditCardValidator.validateExpDate]],
       cvc: ['', [<any>Validators.required, <any>Validators.minLength(3), <any>Validators.maxLength(4)]] // TODO compare actual results against card type
     });
   }

@@ -3,26 +3,34 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
+    "noEmit": true,
     "sourceMap": true,
-    "inlineSources": true,
-    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
-    "noEmitHelpers": false,
+    "emitDecoratorMetadata": true,
     "lib": [
-      "es6",
+      "es2015",
       "dom"
+    ],
+    "typeRoots" : [
+      "./node_modules/@types"
     ],
     "types": [
       "jasmine",
-      "node"
+      "karma",
+      "node",
+      "webpack",
+      "webpack-env"
     ]
   },
-  "exclude": [
-    "node_modules",
-    "example",
-    "src/specs"
+  "include": [
+    "src/**/*.ts"
   ],
-  "angularCompilerOptions": {
-    "genDir": "compiled"
-  }
+  "exclude": [
+    "src/**/*.spec.ts",
+    "node_modules",
+    "demo",
+    "dist"
+  ]
 }

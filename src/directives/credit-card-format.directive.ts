@@ -7,17 +7,17 @@ import { CreditCard } from '../shared/credit-card';
 
 export class CreditCardFormatDirective {
 
-  public target;
+  public target: any;
   private cards: Array<any>;
 
-  constructor(private el: ElementRef) {
+  constructor(private creditCard: CreditCard, private el: ElementRef) {
     if (/^(input|INPUT)$/.exec(el.nativeElement.tagName)) {
       this.target = el.nativeElement;
     } else {
       this.target = this.el.nativeElement.getElementsByTagName('input');
     }   
 
-    this.cards = CreditCard.cards();
+    this.cards = this.creditCard.cards;
   }
 
   ngAfterViewInit() {
@@ -29,9 +29,9 @@ export class CreditCardFormatDirective {
     }
   }
 
-  @HostListener('keypress', ['$event']) onKeypress(e) {
-    if (CreditCard.restrictNumeric(e)) {
-      if (CreditCard.isCardNumber(e.which, this.target)) {
+  @HostListener('keypress', ['$event']) onKeypress(e: any) {
+    if (this.creditCard.restrictNumeric(e)) {
+      if (this.creditCard.isCardNumber(e.which, this.target)) {
         this.formatCardNumber(e);
       }
     } else {
@@ -39,38 +39,38 @@ export class CreditCardFormatDirective {
       return false;
     }
   }
-  @HostListener('keydown', ['$event']) onKeydown(e) {
+  @HostListener('keydown', ['$event']) onKeydown(e: any) {
     this.formatBackCardNumber(e);
   }
-  @HostListener('keyup', ['$event']) onKeyup(e) {
+  @HostListener('keyup', ['$event']) onKeyup(e: any) {
     this.setCardType(e);
   }
-  @HostListener('paste', ['$event']) onPaste(e) {
+  @HostListener('paste', ['$event']) onPaste(e: any) {
     this.reFormatCardNumber(e);
   }
-  @HostListener('change', ['$event']) onChange(e) {
+  @HostListener('change', ['$event']) onChange(e: any) {
     this.reFormatCardNumber(e);
   }
-  @HostListener('input', ['$event']) onInput(e) {
-    this.reFormatCardNumber(e);
-    this.setCardType(e);
-  }
-  @HostListener('ionChange', ['$event']) onIonChange(e) {
+  @HostListener('input', ['$event']) onInput(e: any) {
     this.reFormatCardNumber(e);
     this.setCardType(e);
   }
-  @HostListener('ionBlur', ['$event']) onIonBlur(e) {
+  @HostListener('ionChange', ['$event']) onIonChange(e: any) {
+    this.reFormatCardNumber(e);
+    this.setCardType(e);
+  }
+  @HostListener('ionBlur', ['$event']) onIonBlur(e: any) {
     this.reFormatCardNumber(e);
     this.setCardType(e);    
   }
 
-  private formatCardNumber(e) {
-    let card,
-        digit,
-        length,
-        re,
-        upperLength,
-        value;
+  private formatCardNumber(e: any) {
+    let card: any,
+        digit: string,
+        length: number,
+        re: any,
+        upperLength: number,
+        value: string;
 
     digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {
@@ -79,7 +79,7 @@ export class CreditCardFormatDirective {
 
     value = this.target.value;
 
-    card = CreditCard.cardFromNumber(value + digit);
+    card = this.creditCard.cardFromNumber(value + digit);
 
     length = (value.replace(/\D/g, '') + digit).length;
 
@@ -116,7 +116,7 @@ export class CreditCardFormatDirective {
     }
   }
 
-  private formatBackCardNumber(e) {
+  private formatBackCardNumber(e: any) {
     let value = this.target.value;
 
     if (e.which !== 8) {
@@ -140,10 +140,10 @@ export class CreditCardFormatDirective {
     }
 }
 
-  private setCardType(e) {
-    let card,
+  private setCardType(e: any) {
+    let card: any,
         val      = this.target.value,
-        cardType = CreditCard.cardType(val) || 'unknown';
+        cardType = this.creditCard.cardType(val) || 'unknown';
 
     if (!this.target.classList.contains(cardType)) {
       let ionInputElem = e._elementRef;
@@ -167,11 +167,11 @@ export class CreditCardFormatDirective {
     }
   }
 
-  private reFormatCardNumber(e) {
+  private reFormatCardNumber(e: any) {
     setTimeout(() => {
-      let value = CreditCard.replaceFullWidthChars(this.target.value);
-      value = CreditCard.formatCardNumber(value);
-      this.target.selectionStart = this.target.selectionEnd = CreditCard.safeVal(value, this.target);
+      let value = this.creditCard.replaceFullWidthChars(this.target.value);
+      value = this.creditCard.formatCardNumber(value);
+      this.target.selectionStart = this.target.selectionEnd = this.creditCard.safeVal(value, this.target);
       // Workaround for setting ion-input value same as the native input element.
       if (e._value) {
         e._value = value;
