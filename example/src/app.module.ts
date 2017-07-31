@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CreditCardFormatDirective } from '../../src/directives/credit-card-format.directive';
 import { ExpiryFormatDirective } from '../../src/directives/expiry-format.directive';
 import { CvcFormatDirective } from '../../src/directives/cvc-format.directive';
+import { CreditCardValidator } from '../../src/credit-card.validator';
 
 @NgModule({
   imports: [BrowserModule, ReactiveFormsModule, FormsModule],
@@ -16,7 +17,8 @@ import { CvcFormatDirective } from '../../src/directives/cvc-format.directive';
     ExpiryFormatDirective,
     CvcFormatDirective
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [CreditCardValidator]
 })
 export class AppModule {
 }

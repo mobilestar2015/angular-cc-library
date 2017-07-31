@@ -25,9 +25,11 @@ export class CreditCardValidator {
       return {'ccNumber': false};
     }
 
-    if (card.length >= num.length && (card.luhn === false || this.creditCard.luhnCheck(num))) {
-      return null;
-    }
+    for (let i = 0; i < card.length.length; i++) {
+      if (card.length[i] >= num.length && (card.luhn === false || this.creditCard.luhnCheck(num))) {
+        return null;
+      }
+    }    
 
     return {'ccNumber': false};
   }
