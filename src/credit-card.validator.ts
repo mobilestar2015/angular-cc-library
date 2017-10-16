@@ -26,7 +26,7 @@ export class CreditCardValidator {
     }
 
     for (let i = 0; i < card.length.length; i++) {
-      if (card.length[i] >= num.length && (card.luhn === false || this.creditCard.luhnCheck(num))) {
+      if (card.length[i] === num.length && (card.luhn === false || this.creditCard.luhnCheck(num))) {
         return null;
       }
     }    
